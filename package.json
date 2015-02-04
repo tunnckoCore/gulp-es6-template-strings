@@ -1,6 +1,6 @@
 {
   "name": "gulp-es6-template-strings",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Gulp plugin for `es6-template-strings` package. Compile and resolve template strings notation as specified in ES6.",
   "scripts": {
     "lint": "jshint index.js && jscs index.js --reporter inline",
