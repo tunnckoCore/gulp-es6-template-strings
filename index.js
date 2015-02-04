@@ -13,12 +13,14 @@ var PluginError = require('gulp-util').PluginError;
 var label = 'gulp-es6-template-strings';
 
 module.exports = function gulpEs6TemplateStrings(context) {
-  return through.obj(function (file, enc, cb) {
+  return through.obj(function(file, enc, cb) {
+    /* istanbul ignore if */
     if (file.isNull()) {
       cb(null, file);
       return;
     }
 
+    /* istanbul ignore if */
     if (file.isStream()) {
       cb(new PluginError(label, 'Streaming not supported'));
       return;
@@ -30,6 +32,7 @@ module.exports = function gulpEs6TemplateStrings(context) {
       file.contents = new Buffer(es6templateString(contents, context));
       this.push(file);
     } catch (err) {
+      /* istanbul ignore next */
       this.emit('error', new PluginError(label, err, {fileName: file.path}));
     }
 
