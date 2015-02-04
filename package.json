@@ -17,7 +17,21 @@
     "type": "git",
     "url": "git://github.com/tunnckoCore/gulp-es6-template-strings.git"
   },
-  "keywords": [],
+  "keywords": [
+    "compile",
+    "es6",
+    "es",
+    "gulp",
+    "gulpplugin",
+    "plugin",
+    "render",
+    "resolve",
+    "spec",
+    "specification",
+    "string",
+    "template",
+    "tpl"
+  ],
   "license": {
     "type": "MIT",
     "url": "https://github.com/tunnckoCore/gulp-es6-template-strings/blob/master/license.md"
