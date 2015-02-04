@@ -1,6 +1,6 @@
 ## [![npm][npmjs-img]][npmjs-url] [![mit license][license-img]][license-url] [![build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![deps status][daviddm-img]][daviddm-url]
 
-> Gulp plugin for `es6-template-strings` package. Compile and resolve template strings notation as specified in ES6.
+> Gulp plugin for [es6-template-strings][es6-template-strings] package. Compile and resolve template strings notation as specified in ES6.
 
 ## Install
 ```
@@ -12,12 +12,22 @@ npm test
 ## Usage
 > For more use-cases see the [tests](./test.js)
 
-```js
-var gulpEs6TemplateStrings = require('gulp-es6-template-strings');
+**fixture.md**
+```md
+Welcome to ${siteName}, you are visitor number ${visitorNumber}!!
 ```
 
+**in gulpfile.js**
+```js
+var gulp = require('gulp');
+var template = require('gulp-es6-template-strings');
 
-## API / CLI
+gulp.task('default', function () {
+  return gulp.src('fixture.md')
+    .pipe(template({siteName: 'Google', visitorNumber: 1584375935}))
+    .pipe(gulp.dest('dist'));
+});
+```
 
 
 ## Author
@@ -60,3 +70,5 @@ Released under the [`MIT`][license-url] license.
 ***
 
 _Powered and automated by [kdf](https://github.com/tunnckoCore), February 4, 2015_
+
+[es6-template-strings]: https://github.com/medikoo/es6-template-strings
