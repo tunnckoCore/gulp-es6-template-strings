@@ -1,49 +1,61 @@
-/**
+/*!
  * gulp-es6-template-strings <https://github.com/tunnckoCore/gulp-es6-template-strings>
  *
- * Copyright (c) 2014-2015 Charlike Mike Reagent, contributors.
+ * Copyright (c) 2015 Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)
  * Released under the MIT license.
  */
 
-'use strict';
+/* jshint asi:true */
 
-var assert = require('assert');
-var gulpEs6TemplateStrings = require('./index');
-var gutil = require('gulp-util');
+'use strict'
 
-describe('gulp-es6-template-strings:', function() {
-  it('should compile es6 string templates', function(done) {
-    var stream = gulpEs6TemplateStrings({user: {
-      name: 'Charlike',
-      email: 'email@main.com'
-    }});
+var fs = require('fs')
+var test = require('assertit')
+var gutil = require('gulp-util')
+var template = require('./index')
 
-    stream.on('data', function(data) {
-      assert.strictEqual(data.contents.toString(), 'Charlike`s mail is email@main.com');
-    });
+function plugin (file, onerror) {
+  var stream = template({
+    place: 'world',
+    user: {
+      name: 'Charlike'
+    }
+  })
+  stream.once('error', onerror)
+  stream.write(file)
+  return stream
+}
 
-    stream.on('end', done);
+test('should render file with locals', function (done) {
+  var stream = plugin(new gutil.File({
+    base: __dirname,
+    path: __dirname + '/fixture.txt',
+    contents: new Buffer('Hello ${place} and ${user.name}!')
+  }), done)
 
-    stream.write(new gutil.File({
-      contents: new Buffer('${user.name}`s mail is ${user.email}')
-    }));
+  stream.once('data', function (file) {
+    test.strictEqual(file.contents.toString(), 'Hello world and Charlike!')
+    done()
+  })
+})
 
-    stream.end();
-  });
+test('should error if stream', function (done) {
+  plugin(new gutil.File({
+    base: __dirname,
+    path: __dirname + '/package.json',
+    contents: fs.createReadStream('package.json')
+  }), function (err) {
+    test.strictEqual(err.message, 'Streaming not supported')
+    done()
+  })
+})
 
-  it('should work with no data supplied', function(done) {
-    var stream = gulpEs6TemplateStrings();
+test('should throw TypeError if `locals` not object', function (done) {
+  function fixture () {
+    template('foo bar')
+  }
 
-    stream.on('data', function (data) {
-      assert.equal(data.contents.toString(), '');
-    });
-
-    stream.on('end', done);
-
-    stream.write(new gutil.File({
-      contents: new Buffer('')
-    }));
-
-    stream.end();
-  });
-});
+  test.throws(fixture, TypeError)
+  test.throws(fixture, /expect `locals` to be object/)
+  done()
+})
