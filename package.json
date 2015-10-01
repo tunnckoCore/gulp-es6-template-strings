@@ -1,6 +1,6 @@
 {
   "name": "gulp-es6-template-strings",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gulp plugin for `es6-template-strings` - compile and resolve template strings notation as specified in ES6.",
   "repository": "tunnckoCore/gulp-es6-template-strings",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
